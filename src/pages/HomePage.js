@@ -160,7 +160,7 @@ const Buttons = styled.div`
 const Sum = styled.div`
   position: absolute;
   left: 30px;
-  bottom: 140px;
+  bottom: 145px;
   right: 30px;
   display: flex;
   flex-direction: row;
