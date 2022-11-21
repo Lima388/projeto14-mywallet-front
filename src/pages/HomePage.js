@@ -39,9 +39,14 @@ export default function HomePage(props) {
     setSum(total.toFixed(2));
     console.log(total);
   }, [entries]);
+
   return (
     <Container>
-      <LogOut>
+      <LogOut
+        onClick={() => {
+          navigate("/");
+        }}
+      >
         <LogOutOutline
           color={"#ffffff"}
           title={""}
@@ -63,11 +68,11 @@ export default function HomePage(props) {
             </Entry>
           );
         })}
-        <Sum sum={sum}>
-          <span>SALDO</span>
-          <span>{sum}</span>
-        </Sum>
       </Content>
+      <Sum sum={sum}>
+        <span>SALDO</span>
+        <span>{sum}</span>
+      </Sum>
       <Buttons>
         <Button
           onClick={() => {
@@ -117,19 +122,22 @@ const Greeting = styled.p`
   font-weight: 700;
 `;
 const Content = styled.div`
+  padding: 10px;
   position: relative;
   background-color: ${colors.fields};
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
   border-radius: 5px;
   margin: 20px 0 20px 0;
+  padding-bottom: 30px;
 `;
 const Entry = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 
-  padding: 10px;
+  margin-bottom: 8px;
   font-size: 16px;
 `;
 const Date = styled.span`
@@ -151,13 +159,14 @@ const Buttons = styled.div`
 `;
 const Sum = styled.div`
   position: absolute;
-  left: 10px;
-  bottom: 10px;
-  right: 10px;
+  left: 30px;
+  bottom: 140px;
+  right: 30px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   font-weight: 700;
+  background-color: white;
   span {
     color: black;
   }
