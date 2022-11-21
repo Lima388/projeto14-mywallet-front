@@ -50,14 +50,16 @@ export default function Revenue(props) {
       <Form onSubmit={handleSubmit}>
         <Field
           placeholder="Valor"
-          type="number"
+          pattern="^\d*(\.\d{0,2})?$"
           name="value"
+          required
           onChange={(e) => setValue(e.target.value)}
         />
         <Field
           placeholder="Descrição"
           type="text"
           name="description"
+          required
           onChange={(e) => setDescription(e.target.value)}
         />
 

@@ -52,6 +52,7 @@ export default function SignUpPage(props) {
           placeholder="Nome"
           type="text"
           name="name"
+          maxlength="20"
           onChange={(e) => setName(e.target.value)}
         />
         <Field
