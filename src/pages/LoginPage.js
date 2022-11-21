@@ -5,6 +5,8 @@ import styled from "styled-components";
 import ReactLoading from "react-loading";
 import "../constants/font.css";
 import { colors } from "../constants/colors";
+import { loginURL } from "../constants/links";
+import axios from "axios";
 
 export default function LoginPage(props) {
   const [email, setEmail] = useState();
@@ -24,17 +26,11 @@ export default function LoginPage(props) {
 
     setLoading(true);
 
-    /* axios
-      .post(
-        ,
-        loginInfo
-      )
-      .then(success)
-      .catch(fail); */
+    axios.post(loginURL, loginInfo).then(success).catch(fail);
   }
   function success(received) {
     props.set(received.data);
-    navigate("/habits");
+    navigate("/home");
   }
   function fail(data) {
     setLoading(false);
@@ -101,7 +97,7 @@ const Field = styled.input`
 
   padding-left: 10px;
   background-color: ${colors.fields};
-
+  color: black;
   ::placeholder {
     color: black;
   }

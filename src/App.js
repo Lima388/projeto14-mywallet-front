@@ -12,6 +12,7 @@ export const UserContext = createContext();
 
 export default function App() {
   const [userData, setUserData] = useState(0);
+  console.log(userData);
 
   return (
     <>

@@ -1,44 +1,48 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ReactLoading from "react-loading";
 import "../constants/font.css";
 import { colors } from "../constants/colors";
+import { entriesURL } from "../constants/links";
+import axios from "axios";
+import { UserContext } from "../App";
 
 export default function Expense(props) {
   const [value, setValue] = useState();
   const [description, setDescription] = useState();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const userData = useContext(UserContext);
 
   function handleSubmit(event) {
     event.preventDefault();
     if (value.length === 0 || description.length === 0) {
       return;
     }
-    const loginInfo = {
-      email: value,
-      password: description,
+    const entryInfo = {
+      value: -Math.abs(value),
+      description: description,
     };
 
     setLoading(true);
 
-    /* axios
-      .post(
-        ,
-        loginInfo
-      )
+    axios
+      .post(entriesURL, entryInfo, {
+        headers: {
+          Authorization: `Bearer ${userData.token}`,
+        },
+      })
       .then(success)
-      .catch(fail); */
+      .catch(fail);
   }
-  function success(received) {
-    props.set(received.data);
-    navigate("/habits");
+  function success() {
+    navigate("/home");
   }
   function fail(data) {
     setLoading(false);
-    alert("Login falhou!");
+    alert("Algo deu errado, entrada não registrada!");
+    navigate("/home");
   }
   return (
     <Container>
@@ -46,7 +50,7 @@ export default function Expense(props) {
       <Form onSubmit={handleSubmit}>
         <Field
           placeholder="Valor"
-          type="number"
+          pattern="^\d*(\.\d{0,2})?$"
           name="value"
           onChange={(e) => setValue(e.target.value)}
         />
@@ -95,7 +99,7 @@ const Field = styled.input`
 
   padding-left: 10px;
   background-color: ${colors.fields};
-
+  color: black;
   ::placeholder {
     color: black;
   }

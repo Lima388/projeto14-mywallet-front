@@ -5,8 +5,40 @@ import {
   AddCircleOutline,
   LogOutOutline,
 } from "react-ionicons";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { UserContext } from "../App";
+import { entriesURL } from "../constants/links";
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage(props) {
+  const userData = useContext(UserContext);
+  const [entries, setEntries] = useState([]);
+  const [sum, setSum] = useState();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(`Bearer ${userData.token}`);
+    axios
+      .get(entriesURL, {
+        headers: { Authorization: `Bearer ${userData.token}` },
+      })
+      .then((data) => {
+        setEntries(data.data);
+      })
+      .catch((data) => {
+        console.log(data);
+      });
+  }, []);
+  useEffect(() => {
+    let total = 0;
+    for (const entry of entries) {
+      const num = Number(entry.value);
+      total += num;
+    }
+    setSum(total.toFixed(2));
+    console.log(total);
+  }, [entries]);
   return (
     <Container>
       <LogOut>
@@ -17,23 +49,31 @@ export default function HomePage(props) {
           width="35px"
         />
       </LogOut>
-      <Greeting>Olá, Fulano</Greeting>
+      <Greeting>Olá, {userData.user}</Greeting>
       <Content>
-        <Entry>
-          <Date>
-            27/10<Description>dhfhdfdfhd</Description>
-          </Date>
-          <Value>345,92</Value>
-        </Entry>
-        <Entry>
-          <Date>
-            27/10<Description>dhfhdfdfhd</Description>
-          </Date>
-          <Value add={true}>345,92</Value>
-        </Entry>
+        {entries.map((entry, id) => {
+          const positive = entry.value > 0;
+          return (
+            <Entry key={id}>
+              <Date>
+                {entry.date}
+                <Description>{entry.description}</Description>
+              </Date>
+              <Value add={positive}>{entry.value}</Value>
+            </Entry>
+          );
+        })}
+        <Sum sum={sum}>
+          <span>SALDO</span>
+          <span>{sum}</span>
+        </Sum>
       </Content>
       <Buttons>
-        <Button>
+        <Button
+          onClick={() => {
+            navigate("/Revenue");
+          }}
+        >
           <AddCircleOutline
             color={"#ffffff"}
             title={""}
@@ -42,7 +82,11 @@ export default function HomePage(props) {
           />
           <span>Nova entrada</span>
         </Button>
-        <Button>
+        <Button
+          onClick={() => {
+            navigate("/Expense");
+          }}
+        >
           <RemoveCircleOutline
             background-color={colors.buttons}
             color={"#ffffff"}
@@ -73,6 +117,7 @@ const Greeting = styled.p`
   font-weight: 700;
 `;
 const Content = styled.div`
+  position: relative;
   background-color: ${colors.fields};
   width: 100%;
   height: 100%;
@@ -103,6 +148,22 @@ const Buttons = styled.div`
   justify-content: space-between;
   height: 130px;
   width: 100%;
+`;
+const Sum = styled.div`
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: 700;
+  span {
+    color: black;
+  }
+  span:nth-child(2) {
+    color: ${(props) => (props.sum > 0 ? colors.positive : colors.negative)};
+  }
 `;
 const Button = styled.div`
   height: 100%;

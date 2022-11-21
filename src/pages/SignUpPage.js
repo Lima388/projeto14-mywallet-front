@@ -5,6 +5,8 @@ import styled from "styled-components";
 import ReactLoading from "react-loading";
 import "../constants/font.css";
 import { colors } from "../constants/colors";
+import { signUpURL } from "../constants/links";
+import axios from "axios";
 
 export default function SignUpPage(props) {
   const [name, setName] = useState();
@@ -16,31 +18,31 @@ export default function SignUpPage(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    if (email.length === 0 || pass.length === 0) {
+    if (
+      name.length === 0 ||
+      email.length === 0 ||
+      pass.length === 0 ||
+      pass !== repeatPass
+    ) {
       return;
     }
-    const loginInfo = {
+    const signUpInfo = {
+      name: name,
       email: email,
       password: pass,
     };
 
     setLoading(true);
 
-    /* axios
-      .post(
-        ,
-        loginInfo
-      )
-      .then(success)
-      .catch(fail); */
+    axios.post(signUpURL, signUpInfo).then(success).catch(fail);
   }
   function success(received) {
     props.set(received.data);
-    navigate("/habits");
+    navigate("/");
   }
   function fail(data) {
     setLoading(false);
-    alert("Login falhou!");
+    alert("Criação de conta falhou!");
   }
   return (
     <Container>
@@ -115,6 +117,8 @@ const Field = styled.input`
 
   padding-left: 10px;
   background-color: ${colors.fields};
+
+  color: black;
 
   ::placeholder {
     color: black;
