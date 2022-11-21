@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { createContext, useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
+import HomePage from "./pages/HomePage";
+import { createGlobalStyle } from "styled-components";
+import { colors } from "./constants/colors";
 
-function App() {
+export const UserContext = createContext();
+
+export default function App() {
+  const [userData, setUserData] = useState(0);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyle />
+      <UserContext.Provider value={userData}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LoginPage set={setUserData} />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/home" element={<HomePage index={0} />} />
+          </Routes>
+        </BrowserRouter>
+      </UserContext.Provider>
+    </>
   );
 }
 
-export default App;
+const GlobalStyle = createGlobalStyle`
+  *{
+    background-color: ${colors.background};
+    font-family: "Raleway", sans-serif;
+    box-sizing: border-box;
+    text-decoration: none;
+    color: ${colors.font};
+  }
+`;
