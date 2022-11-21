@@ -61,7 +61,7 @@ export default function LoginPage(props) {
 
         {loading && (
           <Loading>
-            <ReactLoading type={"bubbles"} color={"white"} width={"20%"} />
+            <ReactLoading type={"bubbles"} color={colors.font} width={"20%"} />
           </Loading>
         )}
         {!loading && (
