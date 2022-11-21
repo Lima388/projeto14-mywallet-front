@@ -18,7 +18,20 @@ export default function HomePage(props) {
         />
       </LogOut>
       <Greeting>Olá, Fulano</Greeting>
-      <Content></Content>
+      <Content>
+        <Entry>
+          <Date>
+            27/10<Description>dhfhdfdfhd</Description>
+          </Date>
+          <Value>345,92</Value>
+        </Entry>
+        <Entry>
+          <Date>
+            27/10<Description>dhfhdfdfhd</Description>
+          </Date>
+          <Value add={true}>345,92</Value>
+        </Entry>
+      </Content>
       <Buttons>
         <Button>
           <AddCircleOutline
@@ -65,6 +78,24 @@ const Content = styled.div`
   height: 100%;
   border-radius: 5px;
   margin: 20px 0 20px 0;
+`;
+const Entry = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  padding: 10px;
+  font-size: 16px;
+`;
+const Date = styled.span`
+  color: ${colors.date};
+`;
+const Description = styled.span`
+  margin-left: 10px;
+  color: black;
+`;
+const Value = styled.span`
+  color: ${(props) => (props.add ? colors.positive : colors.negative)};
 `;
 const Buttons = styled.div`
   display: flex;

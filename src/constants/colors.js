@@ -5,4 +5,5 @@ export const colors = {
   font: "#FFFFFF",
   positive: "#03AC00",
   negative: "#C70000",
+  date: "#C6C6C6",
 };
