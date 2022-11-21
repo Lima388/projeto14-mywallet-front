@@ -6,22 +6,20 @@ import ReactLoading from "react-loading";
 import "../constants/font.css";
 import { colors } from "../constants/colors";
 
-export default function SignUpPage(props) {
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [pass, setPass] = useState();
-  const [repeatPass, setRepeatPass] = useState();
+export default function Revenue(props) {
+  const [value, setValue] = useState();
+  const [description, setDescription] = useState();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   function handleSubmit(event) {
     event.preventDefault();
-    if (email.length === 0 || pass.length === 0) {
+    if (value.length === 0 || description.length === 0) {
       return;
     }
     const loginInfo = {
-      email: email,
-      password: pass,
+      email: value,
+      password: description,
     };
 
     setLoading(true);
@@ -44,31 +42,19 @@ export default function SignUpPage(props) {
   }
   return (
     <Container>
-      <Logo>MyWallet</Logo>
+      <Title>Nova entrada</Title>
       <Form onSubmit={handleSubmit}>
         <Field
-          placeholder="Nome"
+          placeholder="Valor"
+          type="number"
+          name="value"
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <Field
+          placeholder="Descrição"
           type="text"
-          name="name"
-          onChange={(e) => setName(e.target.value)}
-        />
-        <Field
-          placeholder="E-mail"
-          type="email"
-          name="email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Field
-          placeholder="Senha"
-          type="password"
-          name="password"
-          onChange={(e) => setPass(e.target.value)}
-        />
-        <Field
-          placeholder="Confirme a senha"
-          type="password"
-          name="password"
-          onChange={(e) => setRepeatPass(e.target.value)}
+          name="description"
+          onChange={(e) => setDescription(e.target.value)}
         />
 
         {loading && (
@@ -76,35 +62,29 @@ export default function SignUpPage(props) {
             <ReactLoading type={"bubbles"} color={colors.font} width={"20%"} />
           </Loading>
         )}
-        {!loading && <Submit type="submit" value="Cadastrar" />}
+        {!loading && <Submit type="submit" value="Salvar entrada" />}
       </Form>
-      <Link to={`/`}>
-        <Login>Já tem uma conta? Entre agora!</Login>
-      </Link>
     </Container>
   );
 }
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
 `;
-const Logo = styled.h1`
-  font-family: "Saira Stencil One", cursive;
-  font-size: 32px;
-  font-weight: 400;
+const Title = styled.span`
+  font-weight: 700;
+  font-size: 26px;
 `;
 const Form = styled.form`
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
 `;
 const Field = styled.input`
   height: 55px;
-  width: 300px;
 
   border: none;
   border: 1px solid #dbdbdb;
@@ -122,7 +102,7 @@ const Field = styled.input`
 `;
 const Submit = styled.input`
   height: 45px;
-  width: 300px;
+  max-width: 400px;
 
   margin-bottom: 20px;
 
@@ -149,9 +129,4 @@ const Loading = styled.div`
 
   border: none;
   border-radius: 5px;
-`;
-
-const Login = styled.p`
-  font-size: 15px;
-  font-weight: 700;
 `;

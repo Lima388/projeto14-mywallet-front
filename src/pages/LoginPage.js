@@ -45,14 +45,12 @@ export default function LoginPage(props) {
       <Logo>MyWallet</Logo>
       <Form onSubmit={handleSubmit}>
         <Field
-          data-identifier="input-email"
           placeholder="E-mail"
           type="email"
           name="email"
           onChange={(e) => setEmail(e.target.value)}
         />
         <Field
-          data-identifier="input-password"
           placeholder="Senha"
           type="password"
           name="password"
@@ -64,11 +62,9 @@ export default function LoginPage(props) {
             <ReactLoading type={"bubbles"} color={colors.font} width={"20%"} />
           </Loading>
         )}
-        {!loading && (
-          <Submit data-identifier="login-btn" type="submit" value="Entrar" />
-        )}
+        {!loading && <Submit type="submit" value="Entrar" />}
       </Form>
-      <Link data-identifier="sign-up-action" to={`/signup/`}>
+      <Link to={`/signup/`}>
         <SignUp>Primeira vez? Cadastre-se!</SignUp>
       </Link>
     </Container>

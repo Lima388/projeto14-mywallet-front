@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import HomePage from "./pages/HomePage";
+import Revenue from "./pages/Revenue";
+import Expense from "./pages/Expense";
 import { createGlobalStyle } from "styled-components";
 import { colors } from "./constants/colors";
 
@@ -19,7 +21,9 @@ export default function App() {
           <Routes>
             <Route path="/" element={<LoginPage set={setUserData} />} />
             <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/home" element={<HomePage index={0} />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/revenue" element={<Revenue />} />
+            <Route path="/expense" element={<Expense />} />
           </Routes>
         </BrowserRouter>
       </UserContext.Provider>
@@ -29,10 +33,12 @@ export default function App() {
 
 const GlobalStyle = createGlobalStyle`
   *{
+    color: ${colors.font};
+    box-sizing: border-box;
+        text-decoration: none;
+  }
+  body{
     background-color: ${colors.background};
     font-family: "Raleway", sans-serif;
-    box-sizing: border-box;
-    text-decoration: none;
-    color: ${colors.font};
   }
 `;
